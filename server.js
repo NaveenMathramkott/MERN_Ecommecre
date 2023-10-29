@@ -1,9 +1,30 @@
-const express = require("express");
-const app = express();
+import express from "express";
+import dotenv from "dotenv";
+import morgan from "morgan";
+import connectDB from "./config/db.js";
+import authRoute from "./routes/authRoute.js";
 
+const app = express();
+dotenv.config();
+
+//dataBase config
+connectDB();
+
+//middleWare
+app.use(express.json());
+app.use(morgan("dev"));
+
+//api routes
+app.use("/api/v1", authRoute);
+
+// first api
 app.get("/", (req, res) => {
-  res.send("welcome to ecommerce 2023");
+  res.send("welcome to E-commerce 2023");
 });
 
-const PORT = 5000;
-app.listen(PORT, () => console.log(`server runing on ${PORT}`));
+//sever creation
+
+const PORT = process.env.PORT;
+app.listen(PORT, () =>
+  console.log(`server running on ${process.env.DEV_MODE} on port ${PORT}`)
+);
