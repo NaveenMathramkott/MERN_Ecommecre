@@ -4,10 +4,13 @@ Please add the following to the .env file
 
 server ->
 
-PORT = -------
-DEV_MODE = development
-MONGO_URL = ----------
-JWT_SECRET_KEY = ---------
+PORT = -------,
+
+DEV_MODE = development,
+
+MONGO_URL = ----------,
+
+JWT_SECRET_KEY = ---------,
 
 client ->
 
