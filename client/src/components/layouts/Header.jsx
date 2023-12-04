@@ -1,7 +1,16 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
+import { useAuth } from "../../pages/context/auth";
+import toast from "react-hot-toast";
 
 const Header = () => {
+  const [auth, setAuth] = useAuth();
+  const handleLogout = () => {
+    setAuth({ ...auth, user: null, token: "" });
+    localStorage.removeItem("auth");
+    toast.success("Logout Successfully");
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -27,52 +36,61 @@ const Header = () => {
                   Category
                 </NavLink>
               </li>
-              {/* <li className="nav-item dropdown">
-                <NavLink
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Dropdown
-                </NavLink>
-                <ul className="dropdown-menu">
-                  <li>
-                    <NavLink className="dropdown-item" href="#">
-                      Action
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink className="dropdown-item" href="#">
-                      Another action
-                    </NavLink>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <NavLink className="dropdown-item" href="#">
-                      Something else here
-                    </NavLink>
-                  </li>
-                </ul>
-              </li> */}
+
               <li className="nav-item">
                 <NavLink className="nav-link" to="/about">
                   About
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/register">
-                  Register
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/login">
-                  Login
-                </NavLink>
-              </li>
+              {!auth.user ? (
+                <>
+                  {" "}
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/register">
+                      Register
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/login">
+                      Login
+                    </NavLink>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item dropdown">
+                    <NavLink
+                      className="nav-link "
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      // aria-expanded="false"
+                    >
+                      {auth?.user?.name}
+                    </NavLink>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <NavLink
+                          className="dropdown-item"
+                          to={`/dashboard${
+                            auth?.user?.admin ? "/admin" : "/user"
+                          }`}
+                        >
+                          Dashboard
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          onClick={handleLogout}
+                          className="dropdown-item"
+                          to="/login"
+                        >
+                          Logout
+                        </NavLink>
+                      </li>
+                    </ul>
+                  </li>
+                </>
+              )}
               <li className="nav-item">
                 <NavLink className="nav-link" to="/mycart">
                   My Cart (0)
