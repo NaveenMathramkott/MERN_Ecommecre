@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../../pages/context/auth";
 import toast from "react-hot-toast";
+import webIcon from "../../assets/emartIcon.png";
+import { IoIosArrowDropupCircle, IoIosPersonAdd } from "react-icons/io";
+import { FaShoppingCart } from "react-icons/fa";
+import { IoIosSearch } from "react-icons/io";
+import { CiFilter } from "react-icons/ci";
+import { CiLocationOn } from "react-icons/ci";
+import { TbTruckDelivery } from "react-icons/tb";
+import { BiSolidOffer } from "react-icons/bi";
+import { IoIosArrowDropdownCircle } from "react-icons/io";
+import { RiMenu3Line } from "react-icons/ri";
+import { MdOutlineClose } from "react-icons/md";
+
+import "./style.css";
 
 const Header = () => {
+  const [showOpen, setShowOpen] = useState(false);
+  const [showSideMenu, setShowSideMenu] = useState(false);
   const [auth, setAuth] = useAuth();
   const handleLogout = () => {
+    setShowOpen(false);
+    setShowSideMenu(false);
     setAuth({ ...auth, user: null, token: "" });
     localStorage.removeItem("auth");
     toast.success("Logout Successfully");
@@ -13,92 +30,107 @@ const Header = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            Ecommerce
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/category">
-                  Category
-                </NavLink>
-              </li>
-
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/about">
-                  About
-                </NavLink>
-              </li>
-              {!auth.user ? (
-                <>
-                  {" "}
-                  <li className="nav-item">
-                    <NavLink className="nav-link" to="/register">
-                      Register
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink className="nav-link" to="/login">
-                      Login
-                    </NavLink>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li className="nav-item dropdown">
-                    <NavLink
-                      className="nav-link "
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      // aria-expanded="false"
-                    >
-                      {auth?.user?.name}
-                    </NavLink>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <NavLink
-                          className="dropdown-item"
-                          to={`/dashboard${
-                            auth?.user?.admin ? "/admin" : "/user"
-                          }`}
-                        >
-                          Dashboard
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          onClick={handleLogout}
-                          className="dropdown-item"
-                          to="/login"
-                        >
-                          Logout
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </li>
-                </>
-              )}
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/mycart">
-                  My Cart (0)
-                </NavLink>
-              </li>
-            </ul>
+      <nav className="navbar-secondary">
+        <span>Welcome to World Wide E Mart</span>
+        <div className="right-sec-navbar">
+          <div className="status-view-bar">
+            <CiLocationOn color="#80bcbd" /> <span>Deliver to 680516</span>
+          </div>
+          <div className="divider" />
+          <div className="status-view-bar">
+            <TbTruckDelivery color="#80bcbd" />
+            <span>Track your Order</span>
+          </div>
+          <div className="divider" />
+          <div className="status-view-bar">
+            <BiSolidOffer color="#80bcbd" />
+            <sapn>All Offers</sapn>
           </div>
         </div>
+      </nav>
+      <nav className="navbar-main">
+        <Link className="left-nav">
+          <img src={webIcon} alt="webIcon" width={50} height={50} />
+          <span>E Mart</span>
+        </Link>
+        <div className="right-nav">
+          <div className="search-box">
+            <div className="search-input">
+              <IoIosSearch />
+              <input placeholder="Search products" />
+            </div>
+            <CiFilter />
+          </div>
+          {!auth.user ? (
+            <NavLink className="linkBtn" to="/login">
+              <IoIosPersonAdd /> <span>SignUp / SignIn</span>
+            </NavLink>
+          ) : (
+            <div className="profile-options">
+              <NavLink
+                className="linkBtn"
+                onClick={() => setShowOpen(!showOpen)}
+              >
+                {showOpen ? (
+                  <IoIosArrowDropupCircle />
+                ) : (
+                  <IoIosArrowDropdownCircle />
+                )}
+                <span style={{ color: showOpen ? "#80bcbd" : "#666666" }}>
+                  {auth?.user?.name}
+                </span>
+              </NavLink>
+
+              {showOpen && (
+                <div className="profile-option-list">
+                  <button>Profile</button>
+                  <button>Dashboard</button>
+                  <button onClick={handleLogout}>Logout</button>
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="divider" />
+          <Link className="linkBtn">
+            <FaShoppingCart />
+            <span>Cart</span>
+          </Link>
+        </div>
+        <>
+          <div className="onMobile-view">
+            {!auth.user ? (
+              <NavLink className="linkBtn" to="/login">
+                <IoIosPersonAdd /> <span>SignUp / SignIn</span>
+              </NavLink>
+            ) : (
+              <>
+                <NavLink
+                  className="linkBtn"
+                  onClick={() => setShowSideMenu(!showSideMenu)}
+                >
+                  {showSideMenu ? (
+                    <IoIosArrowDropupCircle />
+                  ) : (
+                    <IoIosArrowDropdownCircle />
+                  )}
+                  <span style={{ color: showSideMenu ? "#80bcbd" : "#666666" }}>
+                    {auth?.user?.name}
+                  </span>
+                </NavLink>
+
+                {showSideMenu && (
+                  <div className="dropDownList">
+                    <button>Profile</button>
+                    <button>Dashboard</button>
+                    <button>Cart</button>
+                    <button onClick={handleLogout}>Logout</button>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </>
       </nav>
     </>
   );
