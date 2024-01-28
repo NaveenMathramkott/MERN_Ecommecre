@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import HomePage from "./pages/HomePage";
-import About from "./pages/About";
-import PageNotFound from "./pages/PageNotFound";
-import Contact from "./pages/Contact";
-import Category from "./pages/Category";
+import HomePage from "./pages/home/HomePage";
+import About from "./pages/about/About";
+import PageNotFound from "./pages/pageNotFound/PageNotFound";
+import Contact from "./pages/contact/Contact";
+import Category from "./pages/category/Category";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import PrivateRoute from "./components/routes/Private";
@@ -22,7 +22,6 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage />} />
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="user" element={<UserDashboard />} />
           <Route path="user/orders" element={<Orders />} />
@@ -34,6 +33,7 @@ function App() {
           <Route path="admin/create-product" element={<CreateProduct />} />
           <Route path="admin/users" element={<Users />} />
         </Route>
+        <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<About />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/category" element={<Category />} />
