@@ -1,0 +1,16 @@
+.mainContainer {
+  padding: 5px 10px;
+  border-radius: 12px;
+  background-color: var(--primary);
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 300;
+}
+
+.mainContainer:hover {
+  background: var(--hover);
+  color: var(--heading);
+}
