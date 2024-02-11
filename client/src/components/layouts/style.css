@@ -31,7 +31,7 @@
   font-size: 24px;
   display: flex;
   align-items: center;
-  color: #80bcbd;
+  color: var(--primary);
 }
 
 .right-nav {
@@ -81,7 +81,7 @@
   padding: 10px;
   align-items: center;
   text-decoration: none;
-  color: #80bcbd;
+  color: var(--hover);
   background-color: #f6f6fc;
   border-radius: 10px;
 }
@@ -138,6 +138,7 @@
 .onMobile-view {
   display: none;
 }
+
 @media screen and (max-width: 900px) {
   .navbar-main {
     padding: 0 10px 0 10px;
@@ -159,7 +160,9 @@
     flex-direction: column;
     z-index: 10;
     right: 0;
-    width: 100vw;
+    top: 50px;
+    width: auto;
+    border-radius: 10px;
   }
   .dropDownList > button {
     background-color: transparent;
@@ -173,5 +176,9 @@
     padding: 20px;
     z-index: 10;
     border: none;
+  }
+  .onMobileView {
+    display: flex;
+    flex-direction: row;
   }
 }

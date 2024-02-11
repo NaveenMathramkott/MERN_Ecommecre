@@ -1,3 +1,49 @@
 .mainContaner {
   overflow-x: hidden;
 }
+.spacer-mainWrapper {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.cat-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 10px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.carousel-style {
+  margin: 0;
+  height: 300px;
+  width: 100%;
+  color: #fff;
+  line-height: 160px;
+  text-align: center;
+  background: var(--light);
+}
+
+.category-header {
+  display: flex;
+  flex-direction: row;
+  overflow-y: auto;
+  column-gap: 24px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding: 10px;
+}
+
+.category-header::-webkit-scrollbar {
+  display: none;
+}
+
+.deals-header {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 10px;
+}

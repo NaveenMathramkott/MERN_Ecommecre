@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Outlet } from "react-router-dom";
-import Spinner from "../Spinner";
-import { useAuth } from "../../pages/context/auth";
+import Spinner from "../spinner/Spinner";
+import { useAuth } from "../../context/authProvider";
 
 const AdminRoute = () => {
   const [ok, setOk] = useState(false);
@@ -10,7 +10,7 @@ const AdminRoute = () => {
 
   const authCheck = async () => {
     const res = await axios
-      .get(`${process.env.REACT_APP_BASE_URL}/api/v1/admin-auth`, {
+      .get(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/admin-auth`, {
         headers: {
           Authorization: auth?.token,
         },

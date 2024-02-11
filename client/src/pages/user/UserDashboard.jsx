@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../../components/layouts/Layout";
-import { useAuth } from "../context/auth";
+import { useAuth } from "../../context/authProvider";
 import UserMenu from "./UserMenu";
 
 const UserDashboard = () => {

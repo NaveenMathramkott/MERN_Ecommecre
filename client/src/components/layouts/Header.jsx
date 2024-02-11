@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
-import { useAuth } from "../../pages/context/auth";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/authProvider";
 import toast from "react-hot-toast";
 import webIcon from "../../assets/emartIcon.png";
 import { IoIosArrowDropupCircle, IoIosPersonAdd } from "react-icons/io";
@@ -17,6 +17,7 @@ import { MdOutlineClose } from "react-icons/md";
 import "./style.css";
 
 const Header = () => {
+  const navigation = useNavigate();
   const [showOpen, setShowOpen] = useState(false);
   const [showSideMenu, setShowSideMenu] = useState(false);
   const [auth, setAuth] = useAuth();
@@ -44,12 +45,12 @@ const Header = () => {
           <div className="divider" />
           <div className="status-view-bar">
             <BiSolidOffer color="#80bcbd" />
-            <sapn>All Offers</sapn>
+            <span>All Offers</span>
           </div>
         </div>
       </nav>
       <nav className="navbar-main">
-        <Link className="left-nav">
+        <Link className="left-nav" to={"/"}>
           <img src={webIcon} alt="webIcon" width={50} height={50} />
           <span>E Mart</span>
         </Link>
@@ -84,7 +85,15 @@ const Header = () => {
               {showOpen && (
                 <div className="profile-option-list">
                   <button>Profile</button>
-                  <button>Dashboard</button>
+                  <button
+                    onClick={() =>
+                      navigation(
+                        `/dashboard/${auth.user.admin ? "admin" : "user"}`
+                      )
+                    }
+                  >
+                    Dashboard
+                  </button>
                   <button onClick={handleLogout}>Logout</button>
                 </div>
               )}
@@ -104,7 +113,7 @@ const Header = () => {
                 <IoIosPersonAdd /> <span>SignUp / SignIn</span>
               </NavLink>
             ) : (
-              <>
+              <div className="onMobileView">
                 <NavLink
                   className="linkBtn"
                   onClick={() => setShowSideMenu(!showSideMenu)}
@@ -118,16 +127,19 @@ const Header = () => {
                     {auth?.user?.name}
                   </span>
                 </NavLink>
+                <Link className="linkBtn">
+                  <FaShoppingCart />
+                  <span>Cart</span>
+                </Link>
 
                 {showSideMenu && (
                   <div className="dropDownList">
                     <button>Profile</button>
                     <button>Dashboard</button>
-                    <button>Cart</button>
                     <button onClick={handleLogout}>Logout</button>
                   </div>
                 )}
-              </>
+              </div>
             )}
           </div>
         </>

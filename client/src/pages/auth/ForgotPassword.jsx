@@ -13,7 +13,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const res = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/forgot-password`,
+      `${process.env.REACT_APP_BASE_URL}/api/v1/auth/forgot-password`,
       {
         email,
         answer,
@@ -25,7 +25,6 @@ const ForgotPassword = () => {
   };
   return (
     <Layout>
-      {" "}
       <div
         style={{
           display: "flex",
