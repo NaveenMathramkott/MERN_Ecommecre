@@ -1,19 +1,75 @@
-MERN Ecommerce app
+# Electro Mart (MERN E-commerce)
+Is a MERN stack E-commerce web app specifically designed for mechanicals and electronicals e store.
 
-Please add the following to the .env file
 
-server ->
+## Features
 
-PORT = -------,
+### Authenticaton JWT, admin dashboard, user dashboard, profile view, categories & products search, add view update remove (products and categories), admin controls, private routing,
 
-DEV_MODE = development,
+## Tech Stacks
 
-MONGO_URL = ----------,
+**Client :** React JS, CSS3
 
-JWT_SECRET_KEY = ---------,
+**Server :** Node JS, Express JS
 
-client ->
+**Database:->** MongoDB
 
-REACT_APP_BASE_URL = API url
 
-**_ start the app _**
+## Run Locally
+
+Clone the project
+
+```bash
+https://github.com/NaveenMathramkott/MERN_Ecommecre.git
+```
+
+
+
+#### Add the following to the .env file
+
+server :
+```bash
+PORT = -------
+DEV_MODE =development
+MONGO_URL = ----------
+JWT_SECRET_KEY = ---------
+```
+
+client :
+```bash
+REACT_APP_BASE_URL = API_url
+```
+#### Go to the project directory
+```bash
+  cd MERN_Ecommecre
+```
+
+Install dependencies
+
+```bash
+  cd server
+  npm install
+```
+
+```bash
+  cd client
+  npm install
+```
+
+Start the server
+
+```bash
+  cd server
+  npm run start
+```
+
+Start the Client
+
+```bash
+  cd frontend
+  npm start
+```
+
+
+
+## Start the app 
