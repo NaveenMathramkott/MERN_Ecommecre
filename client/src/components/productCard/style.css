@@ -8,11 +8,14 @@
   align-items: center;
   cursor: pointer;
 }
-
-.productCard-container > img {
+.productCard-image-container {
   height: 65%;
-  width: auto;
   object-fit: contain;
+}
+
+.productCard-image-container > img {
+  height: 100%;
+  width: 100%;
 }
 
 #detail-section {
@@ -31,11 +34,7 @@
 
 #detail-section > #name {
   display: flex;
-  align-items: center;
-  overflow: hidden;
-  height: 100px;
-  word-wrap: break-word;
-  text-overflow: ellipsis;
+  align-items: flex-start;
 }
 
 #detail-section > #price {

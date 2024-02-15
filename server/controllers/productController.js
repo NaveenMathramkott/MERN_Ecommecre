@@ -18,7 +18,7 @@ var gateway = new braintree.BraintreeGateway({
 
 export const createProductController = async (req, res) => {
   try {
-    const { name, description, price, category, quantity, shipping, photo } =
+    const { name, description, price, category, quantity, photo, offer } =
       req.body;
     switch (true) {
       case !name:
@@ -35,7 +35,7 @@ export const createProductController = async (req, res) => {
         return res.status(500).send({ error: "photo is Required " });
     }
 
-    const products = new productModel({ ...req.fields, slug: slugify(name) });
+    const products = new productModel({ ...req.body, slug: slugify(name) });
 
     await products.save();
     res.status(201).send({

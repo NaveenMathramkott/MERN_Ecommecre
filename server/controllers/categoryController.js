@@ -20,6 +20,7 @@ export const createCategoryController = async (req, res) => {
     const category = new categoryModel({
       name,
       slug: slugify(name),
+      photo,
     });
 
     await category.save();

@@ -4,39 +4,33 @@ import HomePage from "./pages/home/HomePage";
 import About from "./pages/about/About";
 import PageNotFound from "./pages/pageNotFound/PageNotFound";
 import Contact from "./pages/contact/Contact";
-import Category from "./pages/category/Category";
+import Product from "./pages/product/Product";
 import Login from "./pages/auth/login/Login";
 import Register from "./pages/auth/register/Register";
-import PrivateRoute from "./components/routes/Private";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import UserDashboard from "./pages/user/UserDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminRoute from "./components/routes/Admin";
-import Users from "./pages/admin/Users";
-import CreateProduct from "./pages/admin/CreateProduct";
-import CreateCategory from "./pages/admin/CreateCategory";
 import Orders from "./pages/user/Orders";
 import Profile from "./pages/user/Profile";
+import UserRoute from "./components/routes/UserRoute";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/dashboard" element={<PrivateRoute />}>
+        <Route path="/dashboard" element={<UserRoute />}>
           <Route path="user" element={<UserDashboard />} />
           <Route path="user/orders" element={<Orders />} />
           <Route path="user/profile" element={<Profile />} />
         </Route>
         <Route path="/dashboard" element={<AdminRoute />}>
           <Route path="admin" element={<AdminDashboard />} />
-          <Route path="admin/create-category" element={<CreateCategory />} />
-          <Route path="admin/create-product" element={<CreateProduct />} />
-          <Route path="admin/users" element={<Users />} />
         </Route>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<About />} />
         <Route path="/Contact" element={<Contact />} />
-        <Route path="/category" element={<Category />} />
+        <Route path="/product" element={<Product />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />

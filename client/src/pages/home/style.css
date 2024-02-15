@@ -22,7 +22,8 @@
   color: #fff;
   line-height: 160px;
   text-align: center;
-  background: var(--light);
+  background: var(--background-secondary);
+  object-fit: contain;
 }
 
 .category-header {
@@ -41,7 +42,7 @@
 
 .deals-header {
   display: flex;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;

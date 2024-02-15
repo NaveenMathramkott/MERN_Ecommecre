@@ -10,7 +10,6 @@ const categorySchema = new mongoose.Schema({
   },
   photo: {
     type: String,
-    contentType: String,
   },
 });
 

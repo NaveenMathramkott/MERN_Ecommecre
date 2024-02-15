@@ -4,7 +4,7 @@ import axios from "axios";
 import { Outlet } from "react-router-dom";
 import Spinner from "../spinner/Spinner";
 
-const PrivateRoute = () => {
+const UserRoute = () => {
   const [ok, setOk] = useState(false);
   const [auth, setAuth] = useAuth();
 
@@ -17,7 +17,6 @@ const PrivateRoute = () => {
       })
       .then((result) => result)
       .catch((error) => error);
-    console.log("authentication", res);
     if (res?.data?.success) {
       setOk(true);
     } else {
@@ -25,9 +24,10 @@ const PrivateRoute = () => {
     }
   };
   useEffect(() => {
+    console.log(auth?.token, "--");
     if (auth?.token) authCheck();
   }, [auth]);
   return ok ? <Outlet /> : <Spinner />;
 };
 
-export default PrivateRoute;
+export default UserRoute;
