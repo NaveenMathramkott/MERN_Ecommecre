@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../../components/layouts/Layout";
-import { NavLink } from "react-router-dom";
 import AdminMenu from "./AdminMenu";
 import { useAuth } from "../../context/authProvider";
+import OrderList from "./OrderList";
+import CreateCategory from "./CreateCategory";
+import CreateProduct from "./CreateProduct";
+import Users from "./Users";
 
 const AdminDashboard = () => {
   const [auth, setAuth] = useAuth();
+  const [selectedTab, setSlelectedTab] = useState("Orders");
+
+  const setTabFunction = (event) => {
+    setSlelectedTab(event.currentTarget.innerHTML);
+  };
   return (
     <Layout title={`Admin Panel - Ecommerce`}>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-3">
-            <AdminMenu />
-          </div>
-          <div className="col-md-9">
-            <h2>{auth?.user?.name}</h2>
-          </div>
+      <div className="adminPanel-mainWrapper">
+        <div className="adminPanel-leftSection">
+          <AdminMenu onClick={setTabFunction} active={selectedTab} />
+        </div>
+        <div className="adminPanel-rightSection">
+          {selectedTab === "Orders" && <OrderList />}
+          {selectedTab === "Categories" && <CreateCategory />}
+          {selectedTab === "Products" && <CreateProduct />}
+          {selectedTab === "Users" && <Users />}
         </div>
       </div>
     </Layout>

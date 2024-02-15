@@ -1,29 +1,37 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import "./style.css";
 
-const AdminMenu = () => {
+const TAB_DATA = [
+  {
+    to: "/dashboard/admin/orders",
+    name: "Orders",
+  },
+  {
+    to: "/dashboard/admin/create-category",
+    name: "Categories",
+  },
+  {
+    to: "/dashboard/admin/create-product",
+    name: "Products",
+  },
+  {
+    to: "/dashboard/admin/users",
+    name: "Users",
+  },
+];
+const AdminMenu = ({ onClick, active }) => {
   return (
-    <div className="d-flex m-2">
-      <div className="list-group">
-        <NavLink
-          to="/dashboard/admin/create-category"
-          className="list-group-item list-group-item-action"
+    <div className="adminMenu-group">
+      {TAB_DATA.map((tabItem) => (
+        <ul
+          className={`list-group-item ${
+            active === tabItem.name ? "onSelect-adminMenu" : ""
+          }`}
+          onClick={onClick}
         >
-          Create Category
-        </NavLink>
-        <NavLink
-          to="/dashboard/admin/create-product"
-          className="list-group-item list-group-item-action"
-        >
-          create product
-        </NavLink>
-        <NavLink
-          to="/dashboard/admin/users"
-          className="list-group-item list-group-item-action"
-        >
-          Users
-        </NavLink>
-      </div>
+          {tabItem.name}
+        </ul>
+      ))}
     </div>
   );
 };

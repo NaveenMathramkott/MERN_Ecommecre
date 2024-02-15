@@ -27,6 +27,7 @@ const Header = () => {
     setAuth({ ...auth, user: null, token: "" });
     localStorage.removeItem("auth");
     toast.success("Logout Successfully");
+    navigation("/");
   };
 
   return (
@@ -135,7 +136,15 @@ const Header = () => {
                 {showSideMenu && (
                   <div className="dropDownList">
                     <button>Profile</button>
-                    <button>Dashboard</button>
+                    <button
+                      onClick={() =>
+                        navigation(
+                          `/dashboard/${auth.user.admin ? "admin" : "user"}`
+                        )
+                      }
+                    >
+                      Dashboard
+                    </button>
                     <button onClick={handleLogout}>Logout</button>
                   </div>
                 )}

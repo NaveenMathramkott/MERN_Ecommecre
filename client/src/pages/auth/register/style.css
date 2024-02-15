@@ -32,7 +32,9 @@ form > h3 {
   align-items: center;
   padding: 0 10px 0 10px;
 }
-.icon-btn > input {
+.icon-btn > input,
+textarea,
+select {
   background-color: var(--primary);
   border: none;
   padding: 10px;
@@ -45,7 +47,9 @@ form > h3 {
   cursor: pointer;
 }
 
-.icon-btn > input:focus {
+.icon-btn > input:focus,
+textarea:focus,
+select:focus {
   outline: none;
 }
 
@@ -65,11 +69,24 @@ form > .btn-group {
   width: 140px;
   height: auto;
 }
+.btn-group-product {
+  display: flex;
+  justify-content: center;
+}
+.btn-group-product > button {
+  border-radius: 10px;
+  border: none;
+  padding: 4px;
+  margin: 6px;
+  height: auto;
+  width: 50%;
+}
 
 #btn-login {
   background-color: var(--black);
   font-weight: 500;
   color: var(--white);
+  font-size: 20px;
 }
 
 #register-button {

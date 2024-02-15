@@ -70,6 +70,13 @@ form > .btn-group {
   background-color: var(--black);
   font-weight: 500;
   color: var(--white);
+  cursor: pointer;
+}
+#btn-clear {
+  background-color: var(--light);
+  font-weight: 500;
+  color: var(--white);
+  cursor: pointer;
 }
 #btn-login-disable:hover {
   cursor: not-allowed;

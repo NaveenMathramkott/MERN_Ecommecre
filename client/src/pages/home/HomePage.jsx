@@ -59,7 +59,6 @@ const HomePage = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/api/v1/category/get-category`
       );
-      console.log("category --", data);
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -136,61 +135,64 @@ const HomePage = () => {
             <div>
               <img
                 className="carousel-style"
-                src="https://i.pinimg.com/236x/ce/a2/d4/cea2d4993e8cb414b8235972fd4b0115.jpg"
+                src="https://i.pinimg.com/564x/d6/e8/69/d6e8690bcc922224ace9cf1a2410c8a3.jpg"
               />
             </div>
             <div>
               <img
                 className="carousel-style"
-                src="https://i.pinimg.com/236x/d5/7e/b9/d57eb9966a19b3bf3b6ef36128234fe4.jpg"
+                src="https://i.pinimg.com/564x/9d/7b/1f/9d7b1f682cfddeb77d0a9f18f04973b4.jpg"
               />
             </div>
             <div>
               <img
                 className="carousel-style"
-                src="https://i.pinimg.com/236x/b6/8e/2c/b68e2cf6e46522ce889d84854014fab0.jpg"
+                src="https://i.pinimg.com/564x/60/fc/d5/60fcd5c646686fc4550ab4097449cfb1.jpg"
               />
             </div>
             <div>
               <img
                 className="carousel-style"
-                src="https://i.pinimg.com/564x/c1/ea/15/c1ea15ff1cd6e2711c09d8d82571bc0b.jpg"
+                src="https://i.pinimg.com/564x/ea/b3/1b/eab31b6f8f09f900447ce0ce1c169d47.jpg"
               />
             </div>
           </Carousel>
         </div>
         {/* carousel end */}
         {/* shop top category start*/}
-        <div className="spacer-mainWrapper">
-          <SectionHeader heading={`Shop from top Categories`} />
-          <div className="category-header">
-            {categories.map((item) => (
-              <CategoryCard
-                name={item.name}
-                image={
-                  "https://i.pinimg.com/564x/c1/ea/15/c1ea15ff1cd6e2711c09d8d82571bc0b.jpg"
-                }
-              />
-            ))}
+        {categories.length > 0 ? (
+          <div className="spacer-mainWrapper">
+            <SectionHeader heading={`Shop from top Categories`} />
+            <div className="category-header">
+              {categories?.map((item) => (
+                <CategoryCard name={item.name} image={item.photo} />
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <></>
+        )}
         {/* shop category ends */}
         {/* best deals start */}
-        <div className="spacer-mainWrapper">
-          <SectionHeader heading={`Grab the best deals on spares`} />
-          <div className="deals-header">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-              <div>
-                <ProductCard
-                  name={`iphone 14 (pro max) `}
-                  price={100000}
-                  offer={45000}
-                  image={`https://i.pinimg.com/564x/30/77/21/3077219cbbfc70d5411d39f642820032.jpg`}
-                />
-              </div>
-            ))}
+        {products.length > 0 ? (
+          <div className="spacer-mainWrapper">
+            <SectionHeader heading={`Grab the best deals on spares`} />
+            <div className="deals-header">
+              {products?.map((item) => (
+                <div key={item._id}>
+                  <ProductCard
+                    name={item.name}
+                    price={item.price}
+                    image={item.photo}
+                    offer={item.offer}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <></>
+        )}
         {/* best deals end */}
       </div>
     </Layout>
