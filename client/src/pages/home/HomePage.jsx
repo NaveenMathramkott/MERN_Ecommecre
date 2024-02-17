@@ -119,13 +119,21 @@ const HomePage = () => {
     }
   };
 
+  const toProductDetailPage = (item) => {
+    navigate("/product", { state: item });
+  };
+
   return (
     <Layout title={`Ecommerce app-all products`}>
       <div className="mainContaner">
         {/* category header start*/}
         <div className="cat-header">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-            <Chips name={"groceroy"} onSelect={() => alert(`hello`)} />
+            <Chips
+              name={"groceroy"}
+              onSelect={() => alert(`hello`)}
+              key={item._id}
+            />
           ))}
         </div>
         {/* category header end */}
@@ -164,8 +172,12 @@ const HomePage = () => {
           <div className="spacer-mainWrapper">
             <SectionHeader heading={`Shop from top Categories`} />
             <div className="category-header">
-              {categories?.map((item) => (
-                <CategoryCard name={item.name} image={item.photo} />
+              {categories?.map((item, index) => (
+                <CategoryCard
+                  key={item._id}
+                  name={item.name}
+                  image={item.photo}
+                />
               ))}
             </div>
           </div>
@@ -181,10 +193,8 @@ const HomePage = () => {
               {products?.map((item) => (
                 <div key={item._id}>
                   <ProductCard
-                    name={item.name}
-                    price={item.price}
-                    image={item.photo}
-                    offer={item.offer}
+                    data={item}
+                    onClick={() => toProductDetailPage(item)}
                   />
                 </div>
               ))}
