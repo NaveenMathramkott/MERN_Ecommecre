@@ -14,11 +14,21 @@ import AdminRoute from "./components/routes/Admin";
 import Orders from "./pages/user/Orders";
 import Profile from "./pages/user/Profile";
 import UserRoute from "./components/routes/UserRoute";
+import Cart from "./pages/cart/Cart";
 
 function App() {
   return (
     <>
       <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/Contact" element={<Contact />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/product" element={<Product />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
+        <Route path="*" element={<PageNotFound />} />
         <Route path="/dashboard" element={<UserRoute />}>
           <Route path="user" element={<UserDashboard />} />
           <Route path="user/orders" element={<Orders />} />
@@ -27,14 +37,6 @@ function App() {
         <Route path="/dashboard" element={<AdminRoute />}>
           <Route path="admin" element={<AdminDashboard />} />
         </Route>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/Contact" element={<Contact />} />
-        <Route path="/product" element={<Product />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgotPassword" element={<ForgotPassword />} />
-        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
   );

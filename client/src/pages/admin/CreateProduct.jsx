@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 import toast from "react-hot-toast";
 import axios from "axios";
+import UploadButton from "../../components/uploadbutton/UploadButton";
+import ImageViewer from "../../components/imageViewer/ImageViewer";
 
 const CreateProduct = () => {
   const [createProductTab, setCreateProductTab] = useState(false);
@@ -26,24 +28,20 @@ const CreateProduct = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/api/v1/product/get-product`
       );
-      console.log("data response", data);
       setAllProducts(data.products);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const loadImageFile = (pics) => {
+  const loadImageFile = (photoFile) => {
+    const imageData = photoFile[0]?.originFileObj;
+
     setImageLoading(true);
-    if (pics === undefined) {
-      toast.error("Please Select an Image!");
 
-      return;
-    }
-
-    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+    if (imageData.type === "image/jpeg" || imageData.type === "image/png") {
       const data = new FormData();
-      data.append("file", pics);
+      data.append("file", imageData);
       data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_PRESET);
       data.append("cloud_name", process.env.REACT_APP_CLOUDINARY_NAME);
 
@@ -66,6 +64,7 @@ const CreateProduct = () => {
       return;
     }
   };
+  console.log("data response", image);
 
   const onAddProduct = async (event) => {
     event.preventDefault();
@@ -139,7 +138,7 @@ const CreateProduct = () => {
               <tr className="product-list-data">
                 <td className="id">{index + 1}</td>
                 <td className="photo">
-                  <img src={item.photo} alt={item.name} width={"100px"} />
+                  <ImageViewer src={item.photo} alt={item.name} />
                 </td>
                 <td className="name">{item.name.slice(0, 60)}</td>
                 <td className="description">{item.description.slice(0, 60)}</td>
@@ -166,23 +165,10 @@ const CreateProduct = () => {
               <div
                 className="icon-btn"
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  padding: "10px",
                 }}
               >
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => loadImageFile(e.target.files[0])}
-                />
-                {image && (
-                  <img
-                    src={image}
-                    alt={name || "uploaded image"}
-                    width={"240px"}
-                  />
-                )}
+                <UploadButton getImageData={(data) => loadImageFile(data)} />
               </div>
             </div>
             <div className="input-group">

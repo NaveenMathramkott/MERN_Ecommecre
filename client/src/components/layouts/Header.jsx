@@ -13,11 +13,14 @@ import { BiSolidOffer } from "react-icons/bi";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
 import { RiMenu3Line } from "react-icons/ri";
 import { MdOutlineClose } from "react-icons/md";
+import { Badge } from "antd";
 
 import "./style.css";
+import { useCart } from "../../context/cartProvider";
 
 const Header = () => {
   const navigation = useNavigate();
+  const [cart, setCart] = useCart();
   const [showOpen, setShowOpen] = useState(false);
   const [showSideMenu, setShowSideMenu] = useState(false);
   const [auth, setAuth] = useAuth();
@@ -102,10 +105,12 @@ const Header = () => {
           )}
 
           <div className="divider" />
-          <Link className="linkBtn">
-            <FaShoppingCart />
-            <span>Cart</span>
-          </Link>
+          <Badge count={cart.length}>
+            <Link className="linkBtn" to={"/cart"}>
+              <FaShoppingCart />
+              <span>Cart</span>
+            </Link>
+          </Badge>
         </div>
         <>
           <div className="onMobile-view">
@@ -128,10 +133,12 @@ const Header = () => {
                     {auth?.user?.name}
                   </span>
                 </NavLink>
-                <Link className="linkBtn">
-                  <FaShoppingCart />
-                  <span>Cart</span>
-                </Link>
+                <Badge count={cart.length}>
+                  <Link className="linkBtn" to={"/cart"}>
+                    <FaShoppingCart />
+                    <span>Cart</span>
+                  </Link>
+                </Badge>
 
                 {showSideMenu && (
                   <div className="dropDownList">
