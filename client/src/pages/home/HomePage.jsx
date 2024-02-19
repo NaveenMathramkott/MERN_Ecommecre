@@ -1,51 +1,41 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/layouts/Layout";
-import { useAuth } from "../../context/authProvider";
-import { useCart } from "../../context/cartProvider";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
-import Chips from "../../components/chip/Chips";
-import { Carousel } from "antd";
+import { Carousel, Radio } from "antd";
 import ProductCard from "../../components/productCard/ProductCard";
 import SectionHeader from "../../components/sectionHeader/SectionHeader";
 import CategoryCard from "../../components/category/CategoryCard";
+import { PRICE_DATA } from "../../constant/constant";
+import toast from "react-hot-toast";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [checked, setChecked] = useState([]);
+  const [checked] = useState([]);
   const [radio, setRadio] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getAllCategory();
-    getTotal();
   }, []);
-  useEffect(() => {
-    if (page === 1) return;
-    loadMore();
-  }, [page]);
 
   useEffect(() => {
-    if (!checked.length || !radio.length) getAllProducts();
-  }, [checked.length, radio.length]);
+    if (!radio.length || !checked.length) getAllProducts();
+  }, [radio.length, checked.length]);
 
   useEffect(() => {
-    if (checked.length || radio.length) filterProduct();
-  }, [checked, radio]);
+    if (radio.length || checked.length) filterProduct();
+  }, [radio, checked]);
 
   const getAllProducts = async () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/api/v1/product/product-list/${page}`
+        `${process.env.REACT_APP_BASE_URL}/api/v1/product/get-product`
       );
-      console.log("product --", data);
       setLoading(false);
       setProducts(data.products);
     } catch (error) {
@@ -67,50 +57,13 @@ const HomePage = () => {
     }
   };
 
-  const getTotal = async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/api/v1/product/product-count`
-      );
-      // console.log("total --", data);
-      setTotal(data?.total);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const loadMore = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/api/v1/product/product-list/${page}`
-      );
-      // console.log("product load --", data);
-      setLoading(false);
-      setProducts([...products, ...data?.products]);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  };
-
-  const handleFilter = (value, id) => {
-    let all = [...checked];
-    if (value) {
-      all.push(id);
-    } else {
-      all = all.filter((c) => c !== id);
-    }
-    setChecked(all);
-  };
-
   const filterProduct = async () => {
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/v1/product/product-filters`,
         {
-          checked,
           radio,
+          checked,
         }
       );
       setProducts(data?.products);
@@ -128,13 +81,26 @@ const HomePage = () => {
       <div className="mainContaner">
         {/* category header start*/}
         <div className="cat-header">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-            <Chips
-              name={"groceroy"}
-              onSelect={() => alert(`hello`)}
-              key={item._id}
-            />
-          ))}
+          <Radio.Group
+            size="middle"
+            onChange={(e) => setRadio(e.target.value)}
+            buttonStyle="solid"
+            style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}
+          >
+            {PRICE_DATA?.map((item) => (
+              <Radio
+                key={item.id}
+                value={item.range}
+                style={{
+                  borderRadius: "8px",
+                  border: "1px solid #008ecc",
+                  padding: "2px 4px",
+                }}
+              >
+                {item.name}
+              </Radio>
+            ))}
+          </Radio.Group>
         </div>
         {/* category header end */}
         {/* carousel start */}
@@ -170,13 +136,19 @@ const HomePage = () => {
         {/* shop top category start*/}
         {categories.length > 0 ? (
           <div className="spacer-mainWrapper">
-            <SectionHeader heading={`Shop from top Categories`} />
+            <SectionHeader
+              heading={`Shop from top Categories`}
+              onClick={() => toast.success("Please select the below category")}
+            />
             <div className="category-header">
-              {categories?.map((item, index) => (
+              {categories?.map((item) => (
                 <CategoryCard
                   key={item._id}
                   name={item.name}
                   image={item.photo}
+                  onClick={() =>
+                    navigate("/productCatList", { state: item, navigate })
+                  }
                 />
               ))}
             </div>
@@ -188,7 +160,10 @@ const HomePage = () => {
         {/* best deals start */}
         {products.length > 0 ? (
           <div className="spacer-mainWrapper">
-            <SectionHeader heading={`Grab the best deals on spares`} />
+            <SectionHeader
+              heading={`Grab the best deals on spares`}
+              onClick={() => toast.success("You can see all the product below")}
+            />
             <div className="deals-header">
               {products?.map((item) => (
                 <div key={item._id}>

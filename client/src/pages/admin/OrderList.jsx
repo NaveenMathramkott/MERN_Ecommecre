@@ -43,7 +43,7 @@ const OrderList = () => {
           <th className="quantity">Quantity</th>
         </tr>
         {orders.length > 0 ? (
-          <div>
+          <>
             {orders?.map((item, index) => (
               <tr className="product-list-data">
                 <td className="id">{index + 1}</td>
@@ -65,7 +65,7 @@ const OrderList = () => {
                 <td className="quantity">Quantity</td>
               </tr>
             ))}
-          </div>
+          </>
         ) : (
           <span>No Orders yet</span>
         )}

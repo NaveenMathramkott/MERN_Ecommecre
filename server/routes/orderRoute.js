@@ -5,6 +5,10 @@ import {
   orderStatusController,
 } from "../controllers/authController.js";
 import { checkAdmin, requireSignIn } from "../middlewares/authMiddleWare.js";
+import {
+  brainTreePaymentController,
+  braintreeTokenController,
+} from "../controllers/productController.js";
 
 // router object
 const router = express.Router();
@@ -22,5 +26,11 @@ router.put(
   checkAdmin,
   orderStatusController
 );
+
+//payments routes  token
+router.get("/braintree/token", braintreeTokenController);
+
+//payments
+router.post("/braintree/payment", requireSignIn, brainTreePaymentController);
 
 export default router;

@@ -8,10 +8,16 @@ const ProductCard = ({ data, onClick }) => {
   const [cart, setCart] = useCart();
 
   const balance = (data?.offer * data?.price) / 100;
+
   const onAddToCart = (prod) => {
-    setCart([...cart, prod]);
-    localStorage.setItem("cart", JSON.stringify([...cart, prod]));
-    toast.success("Item Added to cart");
+    const checkCart = cart.filter((itm) => itm._id === prod._id);
+    if (checkCart.length >= 1) {
+      toast.success("Already Added to the cart");
+    } else {
+      setCart([...cart, prod]);
+      localStorage.setItem("cart", JSON.stringify([...cart, prod]));
+      toast.success("Item Added to cart");
+    }
   };
   return (
     <div className="productCard-mainWrapper">

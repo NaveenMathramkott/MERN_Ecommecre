@@ -24,6 +24,7 @@ const AdminMenu = ({ onClick, active }) => {
     <div className="adminMenu-group">
       {TAB_DATA.map((tabItem) => (
         <ul
+          key={tabItem.name}
           className={`list-group-item ${
             active === tabItem.name ? "onSelect-adminMenu" : ""
           }`}

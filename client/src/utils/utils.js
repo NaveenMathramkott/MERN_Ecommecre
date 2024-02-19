@@ -11,3 +11,13 @@ export const textShorter = (text) => {
     return `${data}.`;
   }
 };
+
+export const debounce = (callback, delay = 100) => {
+  var time;
+  return (...args) => {
+    clearTimeout(time);
+    time = setTimeout(() => {
+      callback(...args);
+    }, delay);
+  };
+};

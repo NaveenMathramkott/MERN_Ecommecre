@@ -14,7 +14,7 @@ const ImageViewer = ({ src, alt }) => {
   return (
     <>
       <div onClick={showModal} className="imageViewer-hover-div">
-        <img src={src} alt={alt} id="image-viewer-btn" />
+        <img src={src} alt={alt} className="image-viewer-btn" />
       </div>
       <Modal
         title={alt}

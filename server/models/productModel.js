@@ -30,6 +30,10 @@ const productSchema = new mongoose.Schema(
     offer: {
       type: Number,
     },
+    total: {
+      type: Number,
+      default: 1,
+    },
     photo: {
       type: String,
       contentType: String,

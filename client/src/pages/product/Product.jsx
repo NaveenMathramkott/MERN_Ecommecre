@@ -17,9 +17,14 @@ const Product = () => {
   }, []);
 
   const onAddToCart = (prod) => {
-    setCart([...cart, prod]);
-    localStorage.setItem("cart", JSON.stringify([...cart, prod]));
-    toast.success("Item Added to cart");
+    const checkCart = cart.filter((itm) => itm._id === prod._id);
+    if (checkCart.length >= 1) {
+      toast.success("Already Added to the cart");
+    } else {
+      setCart([...cart, prod]);
+      localStorage.setItem("cart", JSON.stringify([...cart, prod]));
+      toast.success("Item Added to cart");
+    }
   };
 
   return (

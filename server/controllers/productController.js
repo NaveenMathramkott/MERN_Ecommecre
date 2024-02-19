@@ -18,8 +18,16 @@ var gateway = new braintree.BraintreeGateway({
 
 export const createProductController = async (req, res) => {
   try {
-    const { name, description, price, category, quantity, photo, offer } =
-      req.body;
+    const {
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      photo,
+      offer,
+      total,
+    } = req.body;
     switch (true) {
       case !name:
         return res.status(500).send({ error: "Name is Required" });
@@ -59,12 +67,12 @@ export const getProductController = async (req, res) => {
     const products = await productModel
       .find({})
       .populate("category")
-      .limit(12)
+      .limit(15)
       .sort({ createdAt: -1 });
     res.status(200).send({
       success: true,
       counTotal: products.length,
-      message: "ALlProducts ",
+      message: "AllProducts",
       products,
     });
   } catch (error) {
@@ -118,8 +126,17 @@ export const deleteProductController = async (req, res) => {
 //upate product
 export const updateProductController = async (req, res) => {
   try {
-    const { name, description, price, category, quantity, shipping, photo } =
-      req.body;
+    const {
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      shipping,
+      photo,
+      offer,
+      total,
+    } = req.body;
 
     switch (true) {
       case !name:
@@ -161,7 +178,7 @@ export const updateProductController = async (req, res) => {
 // filters
 export const productFiltersController = async (req, res) => {
   try {
-    const { checked, radio } = req.body;
+    const { radio, checked } = req.body;
     let args = {};
     if (checked.length > 0) args.category = checked;
     if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };

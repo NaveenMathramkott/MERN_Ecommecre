@@ -9,11 +9,11 @@ const CreateProduct = () => {
   const [createProductTab, setCreateProductTab] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState();
-  const [offer, setOffer] = useState();
+  const [price, setPrice] = useState("");
+  const [offer, setOffer] = useState("");
   const [quantity, setQuantity] = useState("");
   const [category, setCategory] = useState();
-  const [image, setImage] = useState();
+  const [image, setImage] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
   const [allCategories, setAllCategories] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
@@ -36,10 +36,8 @@ const CreateProduct = () => {
 
   const loadImageFile = (photoFile) => {
     const imageData = photoFile[0]?.originFileObj;
-
     setImageLoading(true);
-
-    if (imageData.type === "image/jpeg" || imageData.type === "image/png") {
+    if (imageData?.type === "image/jpeg" || imageData?.type === "image/png") {
       const data = new FormData();
       data.append("file", imageData);
       data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_PRESET);
@@ -59,16 +57,34 @@ const CreateProduct = () => {
           setImageLoading(false);
         });
     } else {
-      toast.error("Please Select an Image!");
+      // toast.error("Please Select an Image!");
       setImageLoading(false);
       return;
     }
   };
-  console.log("data response", image);
+  const clearFunction = () => {
+    setName("");
+    setDescription("");
+    setPrice("");
+    setOffer("");
+    setQuantity("");
+    setCategory();
+    setImage("");
+  };
 
   const onAddProduct = async (event) => {
     event.preventDefault();
-    setCreateProductTab(false);
+    if (
+      !name ||
+      !description ||
+      !price ||
+      !offer ||
+      !quantity ||
+      !category ||
+      !image
+    ) {
+      return toast.error(`Fill all the fields to submit`);
+    }
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/v1/product/create-product`,
@@ -80,10 +96,14 @@ const CreateProduct = () => {
           quantity: quantity,
           photo: image,
           offer: offer,
+          total: 1,
         }
       );
+      console.log("data", res);
       if (res && res.data.success) {
         toast.success(res.data.message);
+        clearFunction();
+        setCreateProductTab(false);
       } else {
         toast.error(res.data.message);
       }
@@ -91,6 +111,7 @@ const CreateProduct = () => {
       toast.error(error);
     }
   };
+  console.log("data category", category);
 
   const getAllCategory = async () => {
     try {
@@ -99,7 +120,7 @@ const CreateProduct = () => {
       );
       if (data?.success) {
         setAllCategories(data?.category);
-        setCategory(data?.category[0]?.slug);
+        setCategory(data?.category[0]?._id);
       }
     } catch (error) {
       console.log(error);
@@ -135,7 +156,7 @@ const CreateProduct = () => {
           </tr>
           <div>
             {allProducts?.map((item, index) => (
-              <tr className="product-list-data">
+              <tr className="product-list-data" key={item._id}>
                 <td className="id">{index + 1}</td>
                 <td className="photo">
                   <ImageViewer src={item.photo} alt={item.name} />
@@ -262,9 +283,15 @@ const CreateProduct = () => {
                 Add Product
               </button>
             </div>
-            <div className="btn-group-product">
-              <button id={"btn-clear"}>Clear</button>
-            </div>
+            {/* <div className="btn-group-product">
+              <button
+                id={"btn-clear"}
+                onClick={clearFunction}
+                disabled={name || description || price || offer || quantity}
+              >
+                Clear
+              </button>
+            </div> */}
           </form>
         </div>
       )}

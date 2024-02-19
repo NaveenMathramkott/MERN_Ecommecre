@@ -6,33 +6,57 @@ import webIcon from "../../assets/emartIcon.png";
 import { IoIosArrowDropupCircle, IoIosPersonAdd } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
-import { CiFilter } from "react-icons/ci";
 import { CiLocationOn } from "react-icons/ci";
 import { TbTruckDelivery } from "react-icons/tb";
 import { BiSolidOffer } from "react-icons/bi";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
-import { RiMenu3Line } from "react-icons/ri";
-import { MdOutlineClose } from "react-icons/md";
-import { Badge } from "antd";
+import { Badge, AutoComplete } from "antd";
+import axios from "axios";
 
 import "./style.css";
 import { useCart } from "../../context/cartProvider";
+import DrawerTab from "../drawer/DrawerTab";
+import { debounce, textShorter } from "../../utils/utils";
 
 const Header = () => {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [cart, setCart] = useCart();
   const [showOpen, setShowOpen] = useState(false);
   const [showSideMenu, setShowSideMenu] = useState(false);
+  const [productList, setProductList] = useState([]);
   const [auth, setAuth] = useAuth();
+
   const handleLogout = () => {
     setShowOpen(false);
     setShowSideMenu(false);
     setAuth({ ...auth, user: null, token: "" });
     localStorage.removeItem("auth");
     toast.success("Logout Successfully");
-    navigation("/");
+    navigate("/");
   };
 
+  const searchProduct = async (event) => {
+    let response = [];
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/api/v1/product/search/${event}`
+      );
+      response = data?.map((item) => ({
+        value: item.name,
+        label: item.name,
+        item,
+      }));
+      setProductList(response);
+    } catch (error) {
+      setProductList(response);
+      console.log(error);
+    }
+  };
+  const onChangeSearchInput = debounce(searchProduct, 1000);
+  const toProductDetailPage = (item) => {
+    navigate("/product", { state: item });
+  };
+  console.log("search product", productList);
   return (
     <>
       <nav className="navbar-secondary">
@@ -56,15 +80,21 @@ const Header = () => {
       <nav className="navbar-main">
         <Link className="left-nav" to={"/"}>
           <img src={webIcon} alt="webIcon" width={50} height={50} />
-          <span>E Mart</span>
+          <span>Electro Mart</span>
         </Link>
         <div className="right-nav">
           <div className="search-box">
             <div className="search-input">
-              <IoIosSearch />
-              <input placeholder="Search products" />
+              <AutoComplete
+                suffixIcon={<IoIosSearch />}
+                allowClear
+                className="autoComplete"
+                onSearch={onChangeSearchInput}
+                placeholder="Search products"
+                options={productList}
+                onSelect={(e, option) => toProductDetailPage(option.item)}
+              />
             </div>
-            <CiFilter />
           </div>
           {!auth.user ? (
             <NavLink className="linkBtn" to="/login">
@@ -91,7 +121,7 @@ const Header = () => {
                   <button>Profile</button>
                   <button
                     onClick={() =>
-                      navigation(
+                      navigate(
                         `/dashboard/${auth.user.admin ? "admin" : "user"}`
                       )
                     }
@@ -119,42 +149,52 @@ const Header = () => {
                 <IoIosPersonAdd /> <span>SignUp / SignIn</span>
               </NavLink>
             ) : (
-              <div className="onMobileView">
-                <NavLink
-                  className="linkBtn"
-                  onClick={() => setShowSideMenu(!showSideMenu)}
-                >
-                  {showSideMenu ? (
-                    <IoIosArrowDropupCircle />
-                  ) : (
-                    <IoIosArrowDropdownCircle />
-                  )}
-                  <span style={{ color: showSideMenu ? "#80bcbd" : "#666666" }}>
-                    {auth?.user?.name}
-                  </span>
-                </NavLink>
-                <Badge count={cart.length}>
-                  <Link className="linkBtn" to={"/cart"}>
-                    <FaShoppingCart />
-                    <span>Cart</span>
-                  </Link>
-                </Badge>
-
-                {showSideMenu && (
-                  <div className="dropDownList">
-                    <button>Profile</button>
-                    <button
-                      onClick={() =>
-                        navigation(
-                          `/dashboard/${auth.user.admin ? "admin" : "user"}`
-                        )
-                      }
-                    >
-                      Dashboard
-                    </button>
-                    <button onClick={handleLogout}>Logout</button>
+              <div className="mobileView-header">
+                <div className="search-box-mobileView">
+                  <div className="search-input">
+                    <AutoComplete
+                      suffixIcon={<IoIosSearch />}
+                      allowClear
+                      className="autoComplete"
+                      onSearch={onChangeSearchInput}
+                      placeholder="Search products"
+                      options={productList}
+                      onSelect={(e, option) => toProductDetailPage(option.item)}
+                    />
                   </div>
-                )}
+                </div>
+                <div className="drawer-mobileView">
+                  <DrawerTab
+                    nav={
+                      <Badge count={cart.length}>
+                        <Link className="linkBtn" to={"/cart"}>
+                          <FaShoppingCart />
+                          <span>Cart</span>
+                        </Link>
+                      </Badge>
+                    }
+                    title={
+                      <span style={{ color: "#80bcbd" }}>
+                        {auth?.user?.name}
+                      </span>
+                    }
+                  >
+                    <div className="onMobileView">
+                      <button>Profile</button>
+
+                      <button
+                        onClick={() =>
+                          navigate(
+                            `/dashboard/${auth.user.admin ? "admin" : "user"}`
+                          )
+                        }
+                      >
+                        Dashboard
+                      </button>
+                      <button onClick={handleLogout}>Logout</button>
+                    </div>
+                  </DrawerTab>
+                </div>
               </div>
             )}
           </div>
