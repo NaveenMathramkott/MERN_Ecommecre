@@ -27,6 +27,7 @@ const AdminDashboard = () => {
           {selectedTab === "Users" && <Users />}
         </div>
       </div>
+      <div className="Mobile-view-only">Only Available in Desktop View</div>
     </Layout>
   );
 };

@@ -3,7 +3,6 @@
   flex-direction: row;
   justify-content: center;
   padding: 20px 60px;
-  /* background-color: red; */
 }
 .cart-container-left {
   flex: 2;
@@ -84,4 +83,76 @@
 }
 option {
   background-color: var(--hover);
+}
+#countinue-shop-button {
+  border: none;
+  padding: 2px;
+  background-color: transparent;
+  color: var(--primary);
+  cursor: pointer;
+}
+.cart-wrapper-onMobile {
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+  .cart-mainWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px 60px;
+  }
+  .cart-container-left {
+    display: none;
+  }
+  .cart-wrapper-onMobile {
+    display: flex;
+    flex-direction: column;
+  }
+  .cart-card-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .cart-mobile-container > .cart-mobile-image {
+    width: 220px;
+    height: auto;
+  }
+  .cart-mobile-container {
+    width: 400px;
+    height: auto;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cart-mobile-quantity {
+    display: flex;
+    flex-direction: row;
+  }
+  .cart-mobile-quantity > span {
+    display: flex;
+    align-items: center;
+    padding: 3px;
+    background-color: var(--border);
+  }
+
+  .cart-mobile-quantity > button:nth-child(1) {
+    border-radius: 8px 0 0 8px;
+    padding: 3px 8px;
+    border: none;
+  }
+  .cart-mobile-quantity > button:nth-child(3) {
+    border-radius: 0 8px 8px 0;
+    padding: 3px 8px;
+    border: none;
+  }
+  .cart-mobile-total {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50%;
+  }
 }

@@ -21,7 +21,7 @@ const CreateCategory = () => {
 
     setImageLoading(true);
 
-    if (imageData.type === "image/jpeg" || imageData.type === "image/png") {
+    if (imageData?.type === "image/jpeg" || imageData?.type === "image/png") {
       const data = new FormData();
       data.append("file", imageData);
       data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_PRESET);

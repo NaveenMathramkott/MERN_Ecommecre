@@ -11,8 +11,6 @@
   flex-direction: row;
   justify-content: center;
   padding: 10px;
-  gap: 10px;
-  flex-wrap: wrap;
 }
 
 .carousel-style {
@@ -22,8 +20,8 @@
   color: #fff;
   line-height: 160px;
   text-align: center;
-  background: var(--background-secondary);
-  object-fit: contain;
+  background: var(--border);
+  object-fit: inherit;
 }
 
 .category-header {
@@ -42,7 +40,7 @@
 
 .deals-header {
   display: flex;
-  /* justify-content: space-evenly; */
+  justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;

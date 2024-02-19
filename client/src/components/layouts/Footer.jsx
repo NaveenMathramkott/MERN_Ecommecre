@@ -27,15 +27,15 @@ const Footer = () => {
         </div>
         <div className="sectionTwo space">
           <h4>Most Popular Categories</h4>
-          <li>Heavy Tools</li>
-          <li>Mechanical Tools</li>
-          <li>Mechanical Protection</li>
+          <ul>Heavy Tools</ul>
+          <ul>Mechanical Tools</ul>
+          <ul>Mechanical Protection</ul>
         </div>
         <div className="sectionThree space">
           <h4>Customer Service</h4>
-          <li>About Us</li>
-          <li>FAQ</li>
-          <li>Privacy Policy</li>
+          <ul>About Us</ul>
+          <ul>FAQ</ul>
+          <ul>Privacy Policy</ul>
         </div>
       </div>
       <div id="bottom-footer">

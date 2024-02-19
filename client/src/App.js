@@ -15,17 +15,23 @@ import Orders from "./pages/user/Orders";
 import Profile from "./pages/user/Profile";
 import UserRoute from "./components/routes/UserRoute";
 import Cart from "./pages/cart/Cart";
+import ProductCatList from "./pages/product/ProductCatList";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<About />} />
-        <Route path="/Contact" element={<Contact />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/product" element={<Product />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/productCatList" element={<ProductCatList />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="*" element={<PageNotFound />} />

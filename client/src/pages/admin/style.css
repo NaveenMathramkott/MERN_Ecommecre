@@ -16,7 +16,6 @@
 .adminMenu-group {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--border);
   width: 100%;
 }
 .list-group-item {
@@ -24,15 +23,31 @@
   font-weight: 300;
   padding: 10px;
   cursor: pointer;
+  border-radius: 6px;
 }
 .list-group-item:hover,
 .list-group-item:checked {
   color: var(---black);
   background-color: var(--border);
+  border-radius: 6px;
 }
 .onSelect-adminMenu,
 .onSelect-adminMenu:hover {
   background-color: var(--primary);
+}
+.Mobile-view-only {
+  display: none;
+}
+@media screen and (max-width: 900px) {
+  .Mobile-view-only {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+  }
+  .adminPanel-mainWrapper {
+    display: none;
+  }
 }
 
 /* ------------------Order List-------------------------- */
