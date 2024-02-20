@@ -72,12 +72,8 @@ const HomePage = () => {
     }
   };
 
-  const toProductDetailPage = (item) => {
-    navigate("/product", { state: item });
-  };
-
   return (
-    <Layout title={`Ecommerce app-all products`}>
+    <Layout title={`all-products-Emart`}>
       <div className="mainContaner">
         {/* category header start*/}
         <div className="cat-header">
@@ -169,7 +165,7 @@ const HomePage = () => {
                 <div key={item._id}>
                   <ProductCard
                     data={item}
-                    onClick={() => toProductDetailPage(item)}
+                    onClick={() => navigate(`/product/${item.slug}`)}
                   />
                 </div>
               ))}

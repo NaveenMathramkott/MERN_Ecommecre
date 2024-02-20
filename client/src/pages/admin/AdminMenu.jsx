@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./style.css";
 
 const TAB_DATA = [
@@ -14,10 +14,6 @@ const TAB_DATA = [
     to: "/dashboard/admin/create-product",
     name: "Products",
   },
-  // {
-  //   to: "/dashboard/admin/users",
-  //   name: "Users",
-  // },
 ];
 const AdminMenu = ({ onClick, active }) => {
   return (

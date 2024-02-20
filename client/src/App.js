@@ -11,8 +11,6 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import UserDashboard from "./pages/user/UserDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminRoute from "./components/routes/Admin";
-import Orders from "./pages/user/Orders";
-import Profile from "./pages/user/Profile";
 import UserRoute from "./components/routes/UserRoute";
 import Cart from "./pages/cart/Cart";
 import ProductCatList from "./pages/product/ProductCatList";
@@ -29,7 +27,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/product" element={<Product />} />
+        <Route path="/product/:slug" element={<Product />} />
         <Route path="/login" element={<Login />} />
         <Route path="/productCatList" element={<ProductCatList />} />
         <Route path="/register" element={<Register />} />
@@ -37,8 +35,6 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
         <Route path="/dashboard" element={<UserRoute />}>
           <Route path="user" element={<UserDashboard />} />
-          <Route path="user/orders" element={<Orders />} />
-          <Route path="user/profile" element={<Profile />} />
         </Route>
         <Route path="/dashboard" element={<AdminRoute />}>
           <Route path="admin" element={<AdminDashboard />} />

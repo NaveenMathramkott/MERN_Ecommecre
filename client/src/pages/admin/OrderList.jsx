@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 import { useAuth } from "../../context/authProvider";
 import axios from "axios";
+import NoData from "../../components/noData/NoData";
+import toast from "react-hot-toast";
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [auth, setAuth] = useAuth();
+  useEffect(() => {
+    if (auth?.token) getOrders();
+  }, [auth?.token]);
 
   const getOrders = async () => {
     try {
@@ -17,9 +22,6 @@ const OrderList = () => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    if (auth?.token) getOrders();
-  }, [auth?.token]);
 
   return (
     <div className="product-list-mainWrapper">
@@ -30,20 +32,22 @@ const OrderList = () => {
             <span>{`Number of orders : ${orders?.length} `}</span>
           </div>
           <div className="product-box-header-right">
-            <button>Get Report</button>
+            <button onClick={() => toast.success(`No report for now`)}>
+              Get Report
+            </button>
           </div>
-        </tr>
-        <tr className="product-list-heading">
-          <th className="id">id</th>
-          <th className="photo">Photo</th>
-          <th className="description">Status</th>
-          <th className="name">Name</th>
-          <th className="price">Price</th>
-          <th className="category">Category</th>
-          <th className="quantity">Quantity</th>
         </tr>
         {orders.length > 0 ? (
           <>
+            <tr className="product-list-heading">
+              <th className="id">id</th>
+              <th className="photo">Photo</th>
+              <th className="description">Status</th>
+              <th className="name">Name</th>
+              <th className="price">Price</th>
+              <th className="category">Category</th>
+              <th className="quantity">Quantity</th>
+            </tr>
             {orders?.map((item, index) => (
               <tr className="product-list-data">
                 <td className="id">{index + 1}</td>
@@ -67,7 +71,9 @@ const OrderList = () => {
             ))}
           </>
         ) : (
-          <span>No Orders yet</span>
+          <>
+            <NoData />
+          </>
         )}
       </table>
     </div>
