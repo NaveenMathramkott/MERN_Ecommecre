@@ -1,23 +1,30 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import "./style.css";
 
-const UserMenu = () => {
+const TAB_DATA = [
+  {
+    to: "/dashboard/user/orders",
+    name: "Orders",
+  },
+  {
+    to: "/dashboard/user/profile",
+    name: "Profile",
+  },
+];
+const UserMenu = ({ onClick, active }) => {
   return (
-    <div className="d-flex m-2">
-      <div className="list-group">
-        <NavLink
-          to="/dashboard/user/profile"
-          className="list-group-item list-group-item-action"
+    <div className="userMenu-group">
+      {TAB_DATA.map((tabItem) => (
+        <ul
+          key={tabItem.name}
+          className={`list-group-item-user ${
+            active === tabItem.name ? "onSelect-userMenu" : ""
+          }`}
+          onClick={onClick}
         >
-          Profile
-        </NavLink>
-        <NavLink
-          to="/dashboard/user/orders"
-          className="list-group-item list-group-item-action"
-        >
-          Orders
-        </NavLink>
-      </div>
+          {tabItem.name}
+        </ul>
+      ))}
     </div>
   );
 };

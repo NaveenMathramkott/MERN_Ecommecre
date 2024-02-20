@@ -3,32 +3,29 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authProvider";
 import toast from "react-hot-toast";
 import webIcon from "../../assets/emartIcon.png";
-import { IoIosArrowDropupCircle, IoIosPersonAdd } from "react-icons/io";
-import { FaShoppingCart } from "react-icons/fa";
+import { IoIosPersonAdd } from "react-icons/io";
+import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
 import { CiLocationOn } from "react-icons/ci";
 import { TbTruckDelivery } from "react-icons/tb";
 import { BiSolidOffer } from "react-icons/bi";
-import { IoIosArrowDropdownCircle } from "react-icons/io";
-import { Badge, AutoComplete } from "antd";
+import { Badge, AutoComplete, Dropdown } from "antd";
 import axios from "axios";
 
 import "./style.css";
 import { useCart } from "../../context/cartProvider";
 import DrawerTab from "../drawer/DrawerTab";
-import { debounce, textShorter } from "../../utils/utils";
+import { debounce } from "../../utils/utils";
 
 const Header = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
   const [showOpen, setShowOpen] = useState(false);
-  const [showSideMenu, setShowSideMenu] = useState(false);
   const [productList, setProductList] = useState([]);
   const [auth, setAuth] = useAuth();
 
   const handleLogout = () => {
     setShowOpen(false);
-    setShowSideMenu(false);
     setAuth({ ...auth, user: null, token: "" });
     localStorage.removeItem("auth");
     toast.success("Logout Successfully");
@@ -53,10 +50,34 @@ const Header = () => {
     }
   };
   const onChangeSearchInput = debounce(searchProduct, 1000);
-  const toProductDetailPage = (item) => {
-    navigate("/product", { state: item });
-  };
-  console.log("search product", productList);
+
+  const items = [
+    {
+      key: "1",
+      label: <button id="profile-option-list">Profile</button>,
+    },
+    {
+      key: "2",
+      label: (
+        <button
+          id="profile-option-list"
+          onClick={() =>
+            navigate(`/dashboard/${auth.user.admin ? "admin" : "user"}`)
+          }
+        >
+          Dashboard
+        </button>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <button onClick={handleLogout} id="profile-option-list">
+          Logout
+        </button>
+      ),
+    },
+  ];
   return (
     <>
       <nav className="navbar-secondary">
@@ -92,7 +113,9 @@ const Header = () => {
                 onSearch={onChangeSearchInput}
                 placeholder="Search products"
                 options={productList}
-                onSelect={(e, option) => toProductDetailPage(option.item)}
+                onSelect={(e, option) =>
+                  navigate(`/product/${option.item.slug}`)
+                }
               />
             </div>
           </div>
@@ -102,35 +125,18 @@ const Header = () => {
             </NavLink>
           ) : (
             <div className="profile-options">
-              <NavLink
+              <Dropdown
+                menu={{
+                  items,
+                }}
+                placement="bottomCenter"
                 className="linkBtn"
-                onClick={() => setShowOpen(!showOpen)}
               >
-                {showOpen ? (
-                  <IoIosArrowDropupCircle />
-                ) : (
-                  <IoIosArrowDropdownCircle />
-                )}
-                <span style={{ color: showOpen ? "#80bcbd" : "#666666" }}>
+                <span>
+                  <FaUserCircle style={{ paddingRight: "2px" }} />
                   {auth?.user?.name}
                 </span>
-              </NavLink>
-
-              {showOpen && (
-                <div className="profile-option-list">
-                  <button>Profile</button>
-                  <button
-                    onClick={() =>
-                      navigate(
-                        `/dashboard/${auth.user.admin ? "admin" : "user"}`
-                      )
-                    }
-                  >
-                    Dashboard
-                  </button>
-                  <button onClick={handleLogout}>Logout</button>
-                </div>
-              )}
+              </Dropdown>
             </div>
           )}
 
@@ -159,7 +165,9 @@ const Header = () => {
                       onSearch={onChangeSearchInput}
                       placeholder="Search products"
                       options={productList}
-                      onSelect={(e, option) => toProductDetailPage(option.item)}
+                      onSelect={(e, option) =>
+                        navigate(`/product/${option.item.slug}`)
+                      }
                     />
                   </div>
                 </div>

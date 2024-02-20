@@ -15,8 +15,13 @@ const ProductCatList = () => {
   }, []);
 
   const [products, setProducts] = useState([]);
-  const [checked] = useState([location.state._id]);
+  const [checked, setChecked] = useState([location?.state?._id]);
   const [radio, setRadio] = useState([]);
+
+  useEffect(() => {
+    setChecked([location?.state?._id]);
+  }, []);
+
   useEffect(() => {
     if (radio.length || checked.length) filterProduct();
   }, [radio, checked]);
@@ -40,7 +45,7 @@ const ProductCatList = () => {
     navigate("/product", { state: item });
   };
   return (
-    <Layout title={`${location.state.name}-Category List- Ecommerce`}>
+    <Layout title={`${location?.state?.name}-CategoryList-Emart`}>
       <div className="productCat-mainWrapper">
         <div className="productCat-header">
           <Radio.Group
@@ -66,11 +71,11 @@ const ProductCatList = () => {
         </div>
         <div className="productCat-body">
           <div className="productCat-body-header">
-            <h3>{`${location.state.name} Category List`}</h3>
+            <h3>{`${location?.state?.name} Category List`}</h3>
           </div>
           <div className="productCat-data-list">
             {products?.map((item) => (
-              <div key={item._id}>
+              <div key={item?._id}>
                 <ProductCard
                   data={item}
                   onClick={() => toProductDetailPage(item)}

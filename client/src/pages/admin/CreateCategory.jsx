@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import UploadButton from "../../components/uploadbutton/UploadButton";
 import ImageViewer from "../../components/imageViewer/ImageViewer";
+import NoData from "../../components/noData/NoData";
 
 const CreateCategory = () => {
   const [createCategoryTab, setCreateCategoryTab] = useState(false);
@@ -103,30 +104,38 @@ const CreateCategory = () => {
               </button>
             </div>
           </tr>
-          <tr className="product-list-heading">
-            <th className="id">id</th>
-            <th className="photo">Photo</th>
-            <th className="name">Name</th>
-            <th className="edit">Edit</th>
-            <th className="delete">Delete</th>
-          </tr>
-          <div>
-            {allCategories?.map((item, index) => (
-              <tr className="product-list-data">
-                <td className="id">{index + 1}</td>
-                <td className="photo">
-                  <ImageViewer src={item.photo} alt={item.name} />
-                </td>
-                <td className="name">{item.slug}</td>
-                <td className="edit">
-                  <button>Edit</button>
-                </td>
-                <td className="delete">
-                  <button>Delete</button>
-                </td>
+          {allCategories.length > 0 ? (
+            <>
+              <tr className="product-list-heading">
+                <th className="id">id</th>
+                <th className="photo">Photo</th>
+                <th className="name">Name</th>
+                <th className="edit">Edit</th>
+                <th className="delete">Delete</th>
               </tr>
-            ))}
-          </div>
+              <div>
+                {allCategories?.map((item, index) => (
+                  <tr className="product-list-data">
+                    <td className="id">{index + 1}</td>
+                    <td className="photo">
+                      <ImageViewer src={item.photo} alt={item.name} />
+                    </td>
+                    <td className="name">{item.slug}</td>
+                    <td className="edit">
+                      <button>Edit</button>
+                    </td>
+                    <td className="delete">
+                      <button>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <NoData />
+            </>
+          )}
         </table>
       ) : (
         <div className="create-product-container">

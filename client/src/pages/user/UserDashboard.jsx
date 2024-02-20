@@ -1,20 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../../components/layouts/Layout";
 import { useAuth } from "../../context/authProvider";
 import UserMenu from "./UserMenu";
+import Orders from "./Orders";
+import Profile from "./Profile";
+import "./style.css";
 
 const UserDashboard = () => {
   const [auth, setAuth] = useAuth();
+  const [selectedTab, setSlelectedTab] = useState("Orders");
+
+  const setTabFunction = (event) => {
+    setSlelectedTab(event.currentTarget.innerHTML);
+  };
   return (
-    <Layout title={"User Dashboard - Ecommerce"}>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-3">
-            <UserMenu />
-          </div>
-          <div className="col-md-9">
-            <h2>{auth?.user?.name}</h2>
-          </div>
+    <Layout title={"User-Dashboard-Emart"}>
+      <div className="userPanel-mainWrapper">
+        <div className="userPanel-leftSection">
+          <UserMenu onClick={setTabFunction} active={selectedTab} />
+        </div>
+        <div className="userPanel-rightSection">
+          {selectedTab === "Orders" && <Orders />}
+          {selectedTab === "profile" && <Profile />}
         </div>
       </div>
     </Layout>

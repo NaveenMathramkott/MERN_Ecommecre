@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import UploadButton from "../../components/uploadbutton/UploadButton";
 import ImageViewer from "../../components/imageViewer/ImageViewer";
+import NoData from "../../components/noData/NoData";
+import { textShorter } from "../../utils/utils";
 
 const CreateProduct = () => {
   const [createProductTab, setCreateProductTab] = useState(false);
@@ -57,7 +59,6 @@ const CreateProduct = () => {
           setImageLoading(false);
         });
     } else {
-      // toast.error("Please Select an Image!");
       setImageLoading(false);
       return;
     }
@@ -142,40 +143,50 @@ const CreateProduct = () => {
               </button>
             </div>
           </tr>
-          <tr className="product-list-heading">
-            <th className="id">id</th>
-            <th className="photo">Photo</th>
-            <th className="name">Name</th>
-            <th className="description">Description</th>
-            <th className="price">Price</th>
-            <th className="offer">Offer</th>
-            <th className="category">Category</th>
-            <th className="quantity">Quantity</th>
-            <th className="edit">Edit</th>
-            <th className="delete">Delete</th>
-          </tr>
-          <div>
-            {allProducts?.map((item, index) => (
-              <tr className="product-list-data" key={item._id}>
-                <td className="id">{index + 1}</td>
-                <td className="photo">
-                  <ImageViewer src={item.photo} alt={item.name} />
-                </td>
-                <td className="name">{item.name.slice(0, 60)}</td>
-                <td className="description">{item.description.slice(0, 60)}</td>
-                <td className="price">{item.price}</td>
-                <td className="offer">{`${item.offer}%`}</td>
-                <td className="category">{item.category.name}</td>
-                <td className="quantity">{item.quantity}</td>
-                <td className="edit">
-                  <button>Edit</button>
-                </td>
-                <td className="delete">
-                  <button>Delete</button>
-                </td>
+          {allProducts.length > 0 ? (
+            <>
+              <tr className="product-list-heading">
+                <th className="id">id</th>
+                <th className="photo">Photo</th>
+                <th className="name">Name</th>
+                <th className="description">Description</th>
+                <th className="price">Price</th>
+                <th className="offer">Offer</th>
+                <th className="category">Category</th>
+                <th className="quantity">Quantity</th>
+                <th className="edit">Edit</th>
+                <th className="delete">Delete</th>
               </tr>
-            ))}
-          </div>
+              <div>
+                {allProducts?.map((item, index) => (
+                  <tr className="product-list-data" key={item._id}>
+                    <td className="id">{index + 1}</td>
+                    <td className="photo">
+                      <ImageViewer src={item.photo} alt={item.name} />
+                    </td>
+                    <td className="name">{textShorter(item.name)}</td>
+                    <td className="description">
+                      {textShorter(item.description)}
+                    </td>
+                    <td className="price">{item.price}</td>
+                    <td className="offer">{`${item.offer}%`}</td>
+                    <td className="category">{item.category.name}</td>
+                    <td className="quantity">{item.quantity}</td>
+                    <td className="edit">
+                      <button>Edit</button>
+                    </td>
+                    <td className="delete">
+                      <button>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <NoData />
+            </>
+          )}
         </table>
       ) : (
         <div className="create-product-container">

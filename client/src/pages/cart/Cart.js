@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import Layout from "../../components/layouts/Layout";
 import { useCart } from "../../context/cartProvider";
@@ -10,6 +10,15 @@ const Cart = () => {
   const count = 1;
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
+  const [total, setTotal] = useState([]);
+
+  useEffect(() => {
+    const totalCount = cart.map((item) => item.price * item.total);
+    setTotal(totalCount);
+  }, []);
+
+  const summaryTotal = () =>
+    total.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
   const addItem = (id) => {
     const selectedProduct = cart.filter((itm) => {
@@ -18,6 +27,8 @@ const Cart = () => {
       }
       return itm;
     });
+    const totalCount = selectedProduct.map((item) => item.price * item.total);
+    setTotal(totalCount);
     setCart(selectedProduct);
   };
   const removeItem = (id) => {
@@ -27,11 +38,13 @@ const Cart = () => {
         return itm;
       } else if (itm._id !== id) return itm;
     });
+    const totalCount = filteredData.map((item) => item.price * item.total);
+    setTotal(totalCount);
     setCart(filteredData);
   };
-  useEffect(() => {}, [cart]);
+
   return (
-    <Layout title={`Cart Ecommerce`}>
+    <Layout title={`Cart-Emart`}>
       <div className="cart-mainWrapper">
         <div className="cart-container-left">
           <div className="cart-section-header">
@@ -94,6 +107,13 @@ const Cart = () => {
         <div className="cart-container-right">
           <div className="cart-section-header">
             <h3>Order Summary</h3>
+          </div>
+          <div className="cart-section-body">
+            <div className="cart-section-body-summary">
+              <span>Total</span>
+              <span>{`AED ${summaryTotal()}`}</span>
+            </div>
+            <button>Check Out</button>
           </div>
         </div>
       </div>

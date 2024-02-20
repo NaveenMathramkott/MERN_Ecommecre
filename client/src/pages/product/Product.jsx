@@ -1,20 +1,36 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/layouts/Layout";
 import "./style.css";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getOffer } from "../../utils/utils";
 import { useCart } from "../../context/cartProvider";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const Product = () => {
-  const location = useLocation();
+  const params = useParams();
   const [cart, setCart] = useCart();
-  const [product, setProduct] = useState(location.state);
+  const [product, setProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (params?.slug) getProduct();
+  }, [params?.slug]);
+
+  const getProduct = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/api/v1/product/get-product/${params.slug}`
+      );
+      setProduct(data?.product);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const onAddToCart = (prod) => {
     const checkCart = cart.filter((itm) => itm._id === prod._id);
@@ -28,7 +44,7 @@ const Product = () => {
   };
 
   return (
-    <Layout title={`Product Ecommerce app`}>
+    <Layout title={`${product.name}-Product-Emart`}>
       <div className="product-detail-mainWrapper">
         <div className="product-detail-left">
           <img src={product.photo} alt={product.name} />
