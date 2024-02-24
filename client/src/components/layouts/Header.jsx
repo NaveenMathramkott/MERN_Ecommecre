@@ -54,10 +54,6 @@ const Header = () => {
   const items = [
     {
       key: "1",
-      label: <button id="profile-option-list">Profile</button>,
-    },
-    {
-      key: "2",
       label: (
         <button
           id="profile-option-list"
@@ -70,7 +66,7 @@ const Header = () => {
       ),
     },
     {
-      key: "3",
+      key: "2",
       label: (
         <button onClick={handleLogout} id="profile-option-list">
           Logout
@@ -101,7 +97,9 @@ const Header = () => {
       <nav className="navbar-main">
         <Link className="left-nav" to={"/"}>
           <img src={webIcon} alt="webIcon" width={50} height={50} />
-          <span>Electro Mart</span>
+          <span>
+            Electro Mart<sup>Beta</sup>
+          </span>
         </Link>
         <div className="right-nav">
           <div className="search-box">
@@ -129,7 +127,7 @@ const Header = () => {
                 menu={{
                   items,
                 }}
-                placement="bottomCenter"
+                placement="bottom"
                 className="linkBtn"
               >
                 <span>
@@ -188,8 +186,6 @@ const Header = () => {
                     }
                   >
                     <div className="onMobileView">
-                      <button>Profile</button>
-
                       <button
                         onClick={() =>
                           navigate(

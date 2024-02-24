@@ -14,7 +14,7 @@ import {
 const router = express.Router();
 
 //  get all the orders
-router.get("/orders", requireSignIn, getOrdersController);
+router.post("/orders", requireSignIn, getOrdersController);
 
 //  all orders for the users
 router.get("/all-orders", requireSignIn, checkAdmin, getAllOrdersController);

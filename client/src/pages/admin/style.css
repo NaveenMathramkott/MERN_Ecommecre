@@ -138,3 +138,18 @@
 option {
   background-color: var(--hover);
 }
+
+.product-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.product-list-map {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.product-list-map > .img {
+  width: 120px;
+  height: 120px;
+}

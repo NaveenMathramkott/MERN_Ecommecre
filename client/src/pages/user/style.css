@@ -75,7 +75,6 @@
   border-radius: 4px;
 }
 
-/* ---------------create product------------------- */
 .product-list-mainWrapper {
   width: 100%;
   padding: 10px;
@@ -140,4 +139,12 @@
 }
 option {
   background-color: var(--hover);
+}
+
+/* ---------------Profile update------------------- */
+.user-profile-mainWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

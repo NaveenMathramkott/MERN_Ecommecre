@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-// dataBAse Schema structure
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -16,6 +15,12 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    address: {
+      type: String,
+    },
+    phoneNumber: {
+      type: Number,
     },
     answer: {
       type: String,

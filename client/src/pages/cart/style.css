@@ -9,7 +9,7 @@
 }
 .cart-container-right {
   flex: 1;
-  height: 600px;
+  min-height: 600px;
 }
 
 .cart-section-header > h3 {
@@ -84,6 +84,28 @@
 option {
   background-color: var(--hover);
 }
+#addressUpdate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#addressUpdate > span {
+  padding: 6px;
+  width: 80%;
+  background-color: var(--border);
+  min-height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#addressUpdate-btn {
+  border: none;
+  padding: 4px;
+  width: 70%;
+  border-radius: 4px;
+}
+
 #countinue-shop-button {
   border: none;
   padding: 2px;
@@ -115,6 +137,23 @@ option {
 }
 .cart-wrapper-onMobile {
   display: none;
+}
+
+#payment-screen-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#payment-btn {
+  border: none;
+  padding: 8px;
+  margin: 10px;
+  width: auto;
+  background-color: var(--primary);
+  border-radius: 8px;
+  width: 100%;
 }
 
 @media screen and (max-width: 900px) {

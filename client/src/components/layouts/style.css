@@ -35,7 +35,10 @@
   align-items: center;
   color: var(--primary);
 }
-
+sup {
+  font-size: 12px;
+  background-color: var(--gold);
+}
 .right-nav {
   display: flex;
   flex-direction: row;

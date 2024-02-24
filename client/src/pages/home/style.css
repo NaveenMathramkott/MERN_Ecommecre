@@ -27,7 +27,7 @@
     rgba(0, 212, 255, 1) 0%,
     rgba(0, 142, 192, 0.10976890756302526) 87%
   );
-  object-fit: contain;
+  object-fit: fill;
 }
 
 .category-header {
