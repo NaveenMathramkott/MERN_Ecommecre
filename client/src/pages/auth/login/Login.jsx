@@ -16,7 +16,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -35,12 +34,12 @@ const Login = () => {
           token: res.data.token,
         });
         localStorage.setItem("auth", JSON.stringify(res.data));
-        navigate(location.state || "/");
+        navigate(`${location?.state ? location.state : "/"}`);
       } else {
         toast.error(res.data.message);
       }
     } catch (error) {
-      toast.error(error);
+      toast.error(`Login user not found`);
     }
   };
   return (

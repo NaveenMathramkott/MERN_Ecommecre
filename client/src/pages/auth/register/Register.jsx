@@ -9,6 +9,7 @@ import { CiUnlock } from "react-icons/ci";
 import { MdOutlineEmail } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { LuShieldQuestion } from "react-icons/lu";
+import { FaRegAddressCard } from "react-icons/fa";
 
 import "./style.css";
 
@@ -19,6 +20,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [answer, setAnswer] = useState("");
+  const [address, setAddress] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -33,6 +35,7 @@ const Register = () => {
           email,
           admin: isAdmin,
           answer,
+          address,
         }
       );
       if (res && res.data.success) {
@@ -97,7 +100,21 @@ const Register = () => {
               </div>
             </div>
             <div className="input-group">
-              <label htmlFor="inputEmail" className="form-label">
+              <label htmlFor="input-group" className="form-label">
+                Address
+              </label>
+              <div className="icon-btn">
+                <FaRegAddressCard color="black" />
+                <input
+                  type="text"
+                  placeholder="address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="input-group">
+              <label htmlFor="input-group" className="form-label">
                 What is your favorite sport?
               </label>
               <div className="icon-btn">
@@ -126,11 +143,11 @@ const Register = () => {
               <button
                 type="submit"
                 id={`${
-                  !name || !password || !email || !answer
+                  !name || !password || !email || !answer || !address
                     ? "btn-login-disable"
                     : "btn-login"
                 }`}
-                disabled={!name || !password || !email || !answer}
+                disabled={!name || !password || !email || !answer || !address}
               >
                 Register
               </button>

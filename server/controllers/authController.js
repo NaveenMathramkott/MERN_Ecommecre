@@ -5,7 +5,7 @@ import JWT from "jsonwebtoken";
 
 export const registerController = async (req, res) => {
   try {
-    const { name, password, email, admin, answer } = req.body;
+    const { name, password, email, admin, answer, address } = req.body;
 
     const existingUser = await userModal.findOne({ email });
     if (existingUser) {
@@ -21,6 +21,7 @@ export const registerController = async (req, res) => {
       password: hashedPassword,
       admin,
       answer,
+      address,
     }).save();
     const token = await JWT.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "4d",
@@ -28,11 +29,7 @@ export const registerController = async (req, res) => {
     res.status(200).send({
       success: true,
       message: `User has been registered successfully`,
-      user: {
-        name: user.name,
-        email: user.email,
-        admin: user.admin,
-      },
+      user,
       token,
     });
   } catch (error) {
@@ -72,11 +69,7 @@ export const loginController = async (req, res) => {
     res.status(200).send({
       success: true,
       message: `User login successfully`,
-      user: {
-        name: user.name,
-        email: user.email,
-        admin: user.admin,
-      },
+      user,
       token,
     });
   } catch (error) {
@@ -138,34 +131,38 @@ export const testController = async (req, res) => {
 
 export const updateProfileController = async (req, res) => {
   try {
-    const { name, email, password, address, phone } = req.body;
-    const user = await userModal.findById(req.user._id);
-    // check password
+    const { name, email, password, address, phone, user } = req.body;
+    const userData = await userModal.findById(user._id);
     if (password && password.length < 6) {
       return res.json({ error: "Passsword is required and 6 character long" });
     }
     const hashedPassword = password ? await hashPassword(password) : undefined;
+    const token = await JWT.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "4d",
+    });
+
     const updatedUser = await userModal.findByIdAndUpdate(
-      req.user._id,
+      user._id,
       {
-        name: name || user.name,
-        address: email || user.email,
-        password: hashedPassword || user.password,
-        phone: phone || user.phone,
-        address: address || user.address,
+        ...userData,
+        name: name || userData.name,
+        email: email || userData.email,
+        password: hashedPassword || userData.password,
+        phone: phone || userData.phone,
+        address: address || userData.address,
       },
       { new: true }
     );
     res.status(200).send({
       success: true,
-      message: "Profile Updated SUccessfully",
-      updatedUser,
+      message: "Profile Updated Successfully",
+      user: updatedUser,
+      token,
     });
   } catch (error) {
-    console.log(error);
     res.status(400).send({
       success: false,
-      message: "Error WHile Update profile",
+      message: "Error While Update profile",
       error,
     });
   }
@@ -173,13 +170,13 @@ export const updateProfileController = async (req, res) => {
 
 export const getOrdersController = async (req, res) => {
   try {
+    const { id } = req.body;
     const orders = await orderModel
-      .find({ buyer: req.user._id })
+      .find({ buyer: id })
       .populate("products")
       .populate("buyer", "name");
-    res.json(orders);
+    res.status(200).json(orders);
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error While Geting Orders",
@@ -197,7 +194,6 @@ export const getAllOrdersController = async (req, res) => {
       .sort({ createdAt: "-1" });
     res.json(orders);
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error While Geting Orders",
@@ -217,7 +213,6 @@ export const orderStatusController = async (req, res) => {
     );
     res.json(orders);
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error While Updateing Order",

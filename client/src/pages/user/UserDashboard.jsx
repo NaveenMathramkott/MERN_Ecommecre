@@ -5,10 +5,15 @@ import UserMenu from "./UserMenu";
 import Orders from "./Orders";
 import Profile from "./Profile";
 import "./style.css";
+import { useLocation } from "react-router-dom";
 
 const UserDashboard = () => {
   const [auth, setAuth] = useAuth();
-  const [selectedTab, setSlelectedTab] = useState("Orders");
+  const location = useLocation();
+
+  const [selectedTab, setSlelectedTab] = useState(
+    location?.state?.dashboard ? location?.state?.dashboard : "Orders"
+  );
 
   const setTabFunction = (event) => {
     setSlelectedTab(event.currentTarget.innerHTML);
@@ -21,7 +26,9 @@ const UserDashboard = () => {
         </div>
         <div className="userPanel-rightSection">
           {selectedTab === "Orders" && <Orders />}
-          {selectedTab === "profile" && <Profile />}
+          {selectedTab === "Profile" && (
+            <Profile redirect={location?.state?.profile} />
+          )}
         </div>
       </div>
     </Layout>

@@ -42,6 +42,6 @@ router.get("/user-auth", requireSignIn, checkUser, (req, res) =>
 );
 
 //  user update profile
-router.put("/profile", requireSignIn, updateProfileController);
+router.put("/profile-update", requireSignIn, updateProfileController);
 
 export default router;

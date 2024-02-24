@@ -1,10 +1,10 @@
 import React from "react";
 import { Empty } from "antd";
 
-const NoData = () => {
+const NoData = ({ title }) => {
   return (
     <div>
-      <Empty />
+      <Empty description={title} />
     </div>
   );
 };
